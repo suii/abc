@@ -1,0 +1,65 @@
+<?php
+	if(isset($_POST['submit'])){
+
+					$name = trim($_POST['user_name']);
+					$surname = trim($_POST['user_surname']);
+					$address = trim($_POST['user_address']);
+					$contact = trim($_POST['user_number']);
+				
+					$combined=$name.",".$surname.",".$address.",".$contact;
+					
+					$filepath='book.csv';
+					$encoding=mb_detect_encoding($filepath);
+					$filepath=mb_convert_encoding($filepath,'ASCII',$encoding);
+					$filepath=str_replace("?"," ",$filepath);
+					$filepath=addslashes($filepath);
+					
+					 if($handle = fopen($filepath,'r')){
+							
+							while(!feof($handle)){
+								
+								$entry = fgets($handle);
+								
+								if($combined==trim($entry) ){
+									$count=1;
+									break;
+								}else{
+									$count=0;
+								}
+						}
+						
+				if($count==1){ 
+					echo "WELCOME TO THE SITE";
+				}else{ 
+					echo "SORRY THIS USER IS NOT RECOGNIZED";}
+					
+				fclose($handle);
+				}else{
+					echo "could not read from logfile";  
+	}}
+?>
+<html>
+<head><title>assignment</title></head>
+<body>
+	<form action="assignment.php" method="post">
+		<p>name:
+			<input type="text" name="user_name" value="" id="user_name" />
+		</p>
+		<p>surname:
+			<input type="text" name="user_surname" value="" id="user_surname"/>
+		</p>
+		<p>address:
+			<input type="text" name="user_address" value="" id="user_address"/>
+		</p>
+		<p>contact No:
+			<input type="text" name="user_number" value="" id="user_number"/>
+		</p>
+		<p>
+			<input type="submit" name="submit" id="user_submit"/>
+		</p>
+	
+	</form>
+
+</body>
+</html>
+
